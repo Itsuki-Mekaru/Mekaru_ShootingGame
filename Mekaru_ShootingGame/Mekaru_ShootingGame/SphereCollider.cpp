@@ -1,6 +1,14 @@
 #include "SphereCollider.h"
 #include <math.h>
 
+SphereCollider::SphereCollider(T_Location location, float radius)
+{
+    this->location.x = location.x;
+    this->location.y = location.y;
+
+    this->radius = radius;
+}
+
 bool SphereCollider::HitSphere(SphereCollider s)
 {
     // ‰~‚Æ‰~‚Ì“–‚½‚è”»’è
