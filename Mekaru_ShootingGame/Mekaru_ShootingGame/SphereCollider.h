@@ -1,20 +1,19 @@
 #pragma once
-#include "common.h"
+
+struct T_Location{
+    float x;
+    float y;
+};
 
 class SphereCollider
 {
 private:
-    T_Location location;    // （中心座標）
-    float radius;           // 半径
+    T_Location location;
+    float radius;
 
 public:
-    SphereCollider(T_Location location, float radius);
-
-public:
-    bool HitSphere(const SphereCollider* collider) const;    // SphereCollider型同士の当たり判定
-    
-    T_Location GetLocation() const; // 中心座標の取得
-    void SetLocation(T_Location location);  // 中心座標の設定
-    
-    float GetRadius() const;    // 半径の取得
+    bool HitSphere(SphereCollider s);   // コライダー同士のヒット判定
+    float GetRadius();
+    T_Location GetLocation();
+    void SetLocation(T_Location value);
 };

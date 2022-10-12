@@ -1,44 +1,42 @@
 #include "SphereCollider.h"
-#include "math.h"
+#include <math.h>
 
-// コンストラクタ
-SphereCollider::SphereCollider(T_Location location, float radius)
+bool SphereCollider::HitSphere(SphereCollider s)
 {
-    this->location.x = location.x;
-    this->location.y = location.y;
-    this->radius = radius;
+    // 円と円の当たり判定
+    // 自分から相手へのベクトルを求める
+    T_Location location = s.GetLocation();
+    float x = this->location.x - location.x;
+    float y = this->location.y - location.y;
+
+    // 絶対値に変換
+    x = fabsf(x);
+    y = fabsf(y);
+
+    // ベクトルの大きさを取得　√(x*x) + (y*y) 
+    float xy = (x * x) + (y * y);
+    double vectorSize = sqrt(xy);
+
+    // 自分の半径　＋　相手の半径　を取得
+    float radius = this->radius + s.GetRadius();
+
+    // ベクトルの大きさ　＜＝　合計の半径　の時当たってる
+    bool ret = (vectorSize <= radius);
+    return ret;
 }
 
-// SphereCollider型同士の当たり判定
-bool SphereCollider::HitSphere(const SphereCollider* collider) const
+float SphereCollider::GetRadius()
 {
-    // 自分から、相手へのベクトルを計算する
-    // 計算で出したベクトルの大きさと
-    // 自分と相手の半径の合計より
-    // ベクトルの大きさが小さければ、当たっている
-
-    // 自分と相手との間のベクトルを計算
-    float vectorX = fabsf(this->location.x - collider->GetLocation().x);
-    float vectorY = fabsf(this->location.y - collider->GetLocation().y);
-
-    // ベクトルの大きさを計算
+    return radius;
 }
 
-// 中心座標の取得
-T_Location SphereCollider::GetLocation() const
+T_Location SphereCollider::GetLocation()
 {
     return location;
 }
 
-// 中心座標の設定
-void SphereCollider::SetLocation(T_Location location)
+void SphereCollider::SetLocation(T_Location value)
 {
-    this->location.x = location.x;
-    this->location.y = location.y;
-}
-
-// 半径の取得
-float SphereCollider::GetRadius() const
-{
-    return radius;
+    location.x = value.x;
+    location.y = value.y;
 }
