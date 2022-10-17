@@ -1,8 +1,12 @@
 #include "SceneManager.h"
+#include "KeyManager.h"
 
 // メンバ変数の値を書き換えるのがアップデート関数
 AbstractScene* SceneManager::Update()
 {
+    // キー入力の更新
+    KeyManager::Update();
+
     // 現在シーンのアップデートを実行
     AbstractScene* nextScene = mScene->Update();
 
