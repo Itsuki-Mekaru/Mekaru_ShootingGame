@@ -5,7 +5,6 @@
 #include "DxLib.h"
 #include "SceneManager.h"
 #include "GameMainScene.h"
-#include "KeyManager.h"
 
 /***********************************************
  * プログラムの開始
@@ -28,12 +27,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     while(ProcessMessage() == 0 && sceneMng.Update() != nullptr)
     {
         ClearDrawScreen();		// 画面の初期化
-       
-        if(KeyManager::OnClick(KEY_INPUT_RETURN))
-        {
-            DrawFormatString(100, 100, 0xffffff, "aaa");
-        }
-
         sceneMng.Draw();
         ScreenFlip();			// 裏画面の内容を表画面に反映
     }
