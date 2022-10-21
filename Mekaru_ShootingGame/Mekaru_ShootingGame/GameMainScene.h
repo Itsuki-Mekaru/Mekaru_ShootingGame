@@ -6,6 +6,7 @@ class GameMainScene : public AbstractScene
 {
 private:
     Player* player;
+    
 
 public:
     GameMainScene();
