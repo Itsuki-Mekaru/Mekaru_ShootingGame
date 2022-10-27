@@ -18,3 +18,14 @@ void StraightBullets::Draw()
 {
     DrawCircle(GetLocation().x, GetLocation().y, GetRadius(), GetColor(0, 255, 0));
 }
+
+bool StraightBullets::isDeath()
+{
+    float y = GetLocation().y + GetRadius();
+    if(y <= 0)
+    {
+        return true;
+    }
+
+    return false;
+}
