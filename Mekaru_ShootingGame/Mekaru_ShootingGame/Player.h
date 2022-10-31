@@ -14,7 +14,9 @@ public:
     void Update() override;
     void Draw() override;
     void Hit() override;
+    void Hit(int bulletsCount);
     bool LifeCheck();
     int GetScore();
+    void addScore(int point);
 };
 

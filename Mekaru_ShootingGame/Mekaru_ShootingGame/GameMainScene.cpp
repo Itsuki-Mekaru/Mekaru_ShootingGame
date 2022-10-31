@@ -28,12 +28,36 @@ AbstractScene* GameMainScene::Update()
             }
             if(bullets[bulletsCount]->HitSphere(enemy[EnemyCount]))
             {
-                // プレイヤーの弾とエネミーが当たった
                 // 弾のダメージをエネミーに与える
-                // 弾を消す
+                enemy[EnemyCount]->Hit(bullets[bulletsCount]->GetDamage());
+
+                // プレイヤーの弾とエネミーが当たった
+                player->Hit(bulletsCount);  // 弾の削除
+                bullets = player->GetBullets();
+                bulletsCount--;
+
                 // エネミーのHPがゼロ以下であれば、エネミーを消す
-                // エネミーを消したとき、プレイヤーのスコアに、
-                // エネミーのポイントを加算する
+                if(enemy[EnemyCount]->HpCheck())
+                {
+                    // エネミーを消したとき、プレイヤーのスコアに、
+                    // エネミーのポイントを加算する
+                    player->addScore(enemy[EnemyCount]->GetPoint());
+
+                    delete enemy[EnemyCount];
+                    enemy[EnemyCount] = nullptr;
+
+                    for(int i = (EnemyCount + 1); i < 10; i++)
+                    {
+                        if(enemy[i] == nullptr)
+                        {
+                            break;
+                        }
+                        enemy[i - 1] = enemy[i];
+                        enemy[i] = nullptr;
+                    }
+                }
+
+                
             }
         }
     }

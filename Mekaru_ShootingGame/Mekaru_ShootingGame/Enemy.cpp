@@ -33,9 +33,21 @@ void Enemy::Hit()
 
 }
 
+void Enemy::Hit(int damage)
+{
+    if(0 < damage)
+    {
+        hp -= damage;
+        if(hp < 0)
+        {
+            hp = 0;
+        }
+    }
+}
+
 bool Enemy::HpCheck()
 {
-    bool ret = (hp < 0);
+    bool ret = (hp <= 0);
     return ret;
 }
 

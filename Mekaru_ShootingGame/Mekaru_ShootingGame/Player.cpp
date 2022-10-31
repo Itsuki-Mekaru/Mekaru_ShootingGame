@@ -79,6 +79,22 @@ void Player::Draw()
 void Player::Hit()
 {}
 
+void Player::Hit(int bulletsCount)
+{
+    delete bullets[bulletsCount];
+    bullets[bulletsCount] = nullptr;
+
+    for(int i = (bulletsCount + 1); i < 30; i++)
+    {
+        if(bullets[i] == nullptr)
+        {
+            break;
+        }
+        bullets[i - 1] = bullets[i];
+        bullets[i] = nullptr;
+    }
+}
+
 bool Player::LifeCheck()
 {
     bool ret = (life <= 0);
@@ -88,6 +104,14 @@ bool Player::LifeCheck()
 int Player::GetScore()
 {
     return score;
+}
+
+void Player::addScore(int point)
+{
+    if(0 < point)
+    {
+        score += point;
+    }
 }
 
 T_Location getNewLocation(T_Location newLocation)
@@ -114,9 +138,6 @@ T_Location getNewLocation(T_Location newLocation)
     return newLocation;
 }
 
-
-
-
 void bubbleSort(int array[], int array_size)
 {
     int i, j, k;
@@ -131,31 +152,3 @@ void bubbleSort(int array[], int array_size)
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-//bullets[bulletCount] = nullptr;
-//
-//for(int i = bulletCount; i < 29; i++)
-//{
-//    if(bullets[i + 1] == nullptr)
-//    {
-//        break;
-//    }
-//    bullets[i] = bullets[i + 1];
-//    bullets[i + 1] = nullptr;
-//}
-//bulletCount--;
