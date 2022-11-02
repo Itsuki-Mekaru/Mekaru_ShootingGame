@@ -13,8 +13,8 @@ public:
 public:
     virtual void Update() override;
     virtual void Draw() override;
-    virtual void Hit() override;
-    bool HpCHeck();
+    virtual void Hit(int damage) override;
+    bool HpCheck();
     int GetPoint();
 };
 

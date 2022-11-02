@@ -51,15 +51,12 @@ void Player::Update()
         // ‰æ–ÊŠO‚És‚Á‚½‚ç’e‚ðÁ‚·
         if(bullets[bulletCount]->isScreenOut())
         {
-            delete bullets[bulletCount];
-            bullets[bulletCount] = nullptr;
-
-            // ”z—ñ‚ð‘O‚É‹l‚ß‚é
-
+            DeleteBullet(bulletCount);
+            bulletCount--;
         }
     }
 
-    if(KeyManager::OnMouseClicked(MOUSE_INPUT_LEFT))
+    if(KeyManager::OnMousePressed(MOUSE_INPUT_LEFT))
     {
         if(bulletCount < 30 && bullets[bulletCount] == nullptr)
         {
@@ -82,7 +79,7 @@ void Player::Draw()
     }
 }
 
-void Player::Hit()
+void Player::Hit(int damage)
 {
 }
 
