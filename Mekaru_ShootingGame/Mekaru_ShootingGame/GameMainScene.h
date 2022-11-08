@@ -2,12 +2,14 @@
 #include "AbstractScene.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "ItemBase.h"
 
 class GameMainScene : public AbstractScene
 {
 private:
     Player* player;
     Enemy** enemy;
+    ItemBase** items;
 
 public:
     GameMainScene()
@@ -26,6 +28,12 @@ public:
             enemy[i] = nullptr;
         }
         enemy[0] = new Enemy(T_Location{300, 0}, 20);
+
+        items = new ItemBase*[10];
+        for(int i = 0; i < 10; i++)
+        {
+            items[i] = nullptr;
+        }
     }
 
     // デストラクタ

@@ -1,5 +1,6 @@
 #include "DxLib.h"
 #include "GameMainScene.h"
+#include "HpPotion.h"
 
 AbstractScene* GameMainScene::Update()
 {
@@ -11,6 +12,15 @@ AbstractScene* GameMainScene::Update()
             break;
         }
         enemy[i]->Update();
+    }
+
+    for(int i = 0; i < 10; i++)
+    {
+        if(items[i] == nullptr)
+        {
+            break;
+        }
+        items[i]->Update();
     }
 
     BulletsBase** bullets = player->GetBullets();
@@ -39,6 +49,14 @@ AbstractScene* GameMainScene::Update()
                 // エネミーのHPがゼロ以下であれば、エネミーを消す
                 if(enemy[EnemyCount]->HpCheck())
                 {
+                    for(int i = 0; i < 10; i++)
+                    {
+                        if(items[i] == nullptr)
+                        {
+                            items[i] = new HpPotion(enemy[EnemyCount]->GetLocation());
+                        }
+                    }
+
                     // エネミーを消したとき、プレイヤーのスコアに、
                     // エネミーのポイントを加算する
                     player->addScore(enemy[EnemyCount]->GetPoint());
@@ -56,8 +74,30 @@ AbstractScene* GameMainScene::Update()
                         enemy[i] = nullptr;
                     }
                 }
+            }
+        }
+    }
 
-                
+    // アイテムとプレイヤーの当たり判定
+    for(int itemCount = 0; itemCount < 10; itemCount++)
+    {
+        if(items[itemCount] == nullptr)
+        {
+            break;
+        }
+
+        if(player->HitSphere(items[itemCount]))
+        {
+            delete items[itemCount];
+            items[itemCount] = nullptr;
+            for(int i = itemCount + 1; i < 10; i++)
+            {
+                if(items[i] == nullptr)
+                {
+                    break;
+                }
+                items[i-1] = items[i];
+                items[i] = nullptr;
             }
         }
     }
@@ -76,5 +116,14 @@ void GameMainScene::Draw() const
             break;
         }
         enemy[i]->Draw();
+    }
+
+    for(int i = 0; i < 10; i++)
+    {
+        if(items[i] == nullptr)
+        {
+            break;
+        }
+        items[i]->Draw();
     }
 }
