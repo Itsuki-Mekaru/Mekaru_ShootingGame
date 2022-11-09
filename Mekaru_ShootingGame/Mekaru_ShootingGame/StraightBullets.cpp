@@ -1,8 +1,8 @@
 #include "StraightBullets.h"
 #include "DxLib.h"
 
-StraightBullets::StraightBullets(T_Location location) 
-    : BulletsBase(location, 5.f, 1, T_Location{0, 2})
+StraightBullets::StraightBullets(T_Location location, T_Location speed)
+    : BulletsBase(location, 5.f, 1, speed)
 {
     image = 0;
 }
@@ -23,6 +23,11 @@ bool StraightBullets::isDeath()
 {
     float y = GetLocation().y + GetRadius();
     if(y <= 0)
+    {
+        return true;
+    }
+
+    if(720 <= y)
     {
         return true;
     }

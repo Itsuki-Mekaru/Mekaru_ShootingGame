@@ -54,6 +54,7 @@ AbstractScene* GameMainScene::Update()
                         if(items[i] == nullptr)
                         {
                             items[i] = new HpPotion(enemy[EnemyCount]->GetLocation());
+                            break;
                         }
                     }
 
@@ -88,6 +89,8 @@ AbstractScene* GameMainScene::Update()
 
         if(player->HitSphere(items[itemCount]))
         {
+            player->Hit(items[itemCount]);
+
             delete items[itemCount];
             items[itemCount] = nullptr;
             for(int i = itemCount + 1; i < 10; i++)

@@ -15,6 +15,9 @@ public:
     void Draw() override;
     void Hit() override;
     void Hit(int bulletsCount);
+    
+    void Hit(class ItemBase* item);
+
     bool LifeCheck();
     int GetScore();
     void addScore(int point);

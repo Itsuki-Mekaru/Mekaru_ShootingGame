@@ -3,6 +3,8 @@
 #include "KeyManager.h"
 #include "StraightBullets.h"
 
+#include "HpPotion.h"
+
 T_Location getNewLocation(T_Location newLocation);
 
 Player::Player(T_Location location, float radius)
@@ -45,7 +47,7 @@ void Player::Update()
                 {
                     break;
                 }
-                bullets[i -1] = bullets[i];
+                bullets[i - 1] = bullets[i];
                 bullets[i] = nullptr;
             }
             bulletCount--;
@@ -63,6 +65,12 @@ void Player::Update()
 
 void Player::Draw()
 {
+#define _DEBUG_MODE_
+
+#ifdef _DEBUG_MODE_
+    DrawFormatString(10, 10, GetColor(255, 255, 255), "Life = %d", this->life);
+#endif
+
     DrawCircle(GetLocation().x, GetLocation().y, GetRadius(), GetColor(255, 0, 0));
 
     int bulletCount;
@@ -92,6 +100,27 @@ void Player::Hit(int bulletsCount)
         }
         bullets[i - 1] = bullets[i];
         bullets[i] = nullptr;
+    }
+}
+
+void Player::Hit(ItemBase* item)
+{
+    E_ITEM_TYPE type = item->GetType();
+    switch(type)
+    {
+        case E_ITEM_TYPE::HP_POTION:
+        {
+            HpPotion* potion = dynamic_cast<HpPotion*>(item);
+            if(potion == nullptr)
+            {
+                throw -1;
+            }
+            this->life += potion->GetHealPower();
+            break;
+        }
+        
+        default:
+            break;
     }
 }
 
@@ -136,19 +165,4 @@ T_Location getNewLocation(T_Location newLocation)
         newLocation.x += 2;
     }
     return newLocation;
-}
-
-void bubbleSort(int array[], int array_size)
-{
-    int i, j, k;
-
-    for(i = 0; i < (array_size - 1); i++)
-    {
-        if(array[i + 1] < array[i])
-        {
-            k = array[i];
-            array[i] = array[i + 1];
-            array[i + 1] = k;
-        }
-    }
 }
