@@ -1,10 +1,6 @@
 #pragma once
 #include "SphereCollider.h"
-
-enum class E_ITEM_TYPE
-{
-    NOMAL = 0
-};
+#include "E_ITEM_TYPE.h"
 
 class ItemBase : public SphereCollider
 {

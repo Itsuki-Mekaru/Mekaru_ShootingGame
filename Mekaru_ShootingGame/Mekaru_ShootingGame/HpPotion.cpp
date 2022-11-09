@@ -2,7 +2,7 @@
 #include "DxLib.h"
 
 HpPotion::HpPotion(T_Location location)
-    :ItemBase(location, 5.f, E_ITEM_TYPE::NOMAL, T_Location{0, 0.5f}), healPower(2)
+    :ItemBase(location, 5.f, E_ITEM_TYPE::HP_POTION, T_Location{0, 0.5f}), healPower(2)
 {
 
 }
