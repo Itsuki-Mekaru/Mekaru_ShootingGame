@@ -1,21 +1,18 @@
 #include "SphereCollider.h"
 #include <math.h>
 
-SphereCollider::SphereCollider(T_Location location, float radius)
+SphereCollider::SphereCollider(Location2D location, float radius)
 {
-    this->location.x = location.x;
-    this->location.y = location.y;
-
+    this->location = location;
     this->radius = radius;
 }
 
-bool SphereCollider::HitSphere(SphereCollider* s)
+bool SphereCollider::HitSphere(SphereCollider* collider)
 {
     // 円と円の当たり判定
     // 自分から相手へのベクトルを求める
-    T_Location location = s->GetLocation();
-    float x = this->location.x - location.x;
-    float y = this->location.y - location.y;
+    Location2D a = collider->GetLocation();
+    Location2D location = this->GetLocation() - collider->GetLocation();
 
     // 絶対値に変換
     x = fabsf(x);
@@ -38,12 +35,12 @@ float SphereCollider::GetRadius()
     return radius;
 }
 
-T_Location SphereCollider::GetLocation()
+Location2D SphereCollider::GetLocation()
 {
     return location;
 }
 
-void SphereCollider::SetLocation(T_Location value)
+void SphereCollider::SetLocation(Location2D value)
 {
     location.x = value.x;
     location.y = value.y;

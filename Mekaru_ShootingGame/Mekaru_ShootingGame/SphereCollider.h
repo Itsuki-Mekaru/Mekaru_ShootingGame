@@ -1,22 +1,18 @@
 #pragma once
-
-struct T_Location{
-    float x;
-    float y;
-};
+#include "Location2D.h"
 
 class SphereCollider
 {
 private:
-    T_Location location;
+    Location2D location;
     float radius;
 
 public:
-    SphereCollider(T_Location location, float radius);
+    SphereCollider(Location2D location, float radius);
 
 public:
-    bool HitSphere(SphereCollider* s);   // コライダー同士のヒット判定
+    bool HitSphere(SphereCollider* collider);   // コライダー同士のヒット判定
     float GetRadius();
-    T_Location GetLocation();
-    void SetLocation(T_Location value);
+    Location2D GetLocation();
+    void SetLocation(Location2D value);
 };
