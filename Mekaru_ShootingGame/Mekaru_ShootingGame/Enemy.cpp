@@ -1,6 +1,5 @@
 #include "DxLib.h"
 #include "Enemy.h"
-
 #include "StraightBullets.h"
 
 Enemy::Enemy(T_Location location)
