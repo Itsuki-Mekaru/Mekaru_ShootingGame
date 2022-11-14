@@ -52,7 +52,7 @@ void Player::Update()
         }
     }
 
-    if(KeyManager::OnClick(KEY_INPUT_P))
+    if(InputManager::KeyboardClick(KEY_INPUT_P))
     {
         if(bulletCount < 30 && bullets[bulletCount] == nullptr)
         {
@@ -116,22 +116,22 @@ void Player::addScore(int point)
 
 T_Location getNewLocation(T_Location newLocation)
 {
-    if(KeyManager::OnPressed(KEY_INPUT_W))
+    if(InputManager::KeyboardPressed(KEY_INPUT_W))
     {
         newLocation.y -= 2;
     }
 
-    if(KeyManager::OnPressed(KEY_INPUT_A))
+    if(InputManager::KeyboardPressed(KEY_INPUT_A))
     {
         newLocation.x -= 2;
     }
 
-    if(KeyManager::OnPressed(KEY_INPUT_S))
+    if(InputManager::KeyboardPressed(KEY_INPUT_S))
     {
         newLocation.y += 2;
     }
 
-    if(KeyManager::OnPressed(KEY_INPUT_D))
+    if(InputManager::KeyboardPressed(KEY_INPUT_D))
     {
         newLocation.x += 2;
     }

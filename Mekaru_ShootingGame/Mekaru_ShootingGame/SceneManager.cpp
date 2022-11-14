@@ -5,7 +5,7 @@
 AbstractScene* SceneManager::Update()
 {
     // キー入力の更新
-    KeyManager::Update();
+    InputManager::Update();
 
     // 現在シーンのアップデートを実行
     AbstractScene* nextScene = mScene->Update();
