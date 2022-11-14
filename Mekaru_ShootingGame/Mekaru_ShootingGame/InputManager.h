@@ -1,12 +1,13 @@
 #pragma once
 
-#define _ON_INPUT_KEYBOARD_
-#define _ON_INPUT_KEYBOARD_AND_JOYPAD1_
-#define _ON_INPUT_JOYPAD1_
-#define _ON_INPUT_JOYPAD2_
-#define _ON_INPUT_JOYPAD3_
-#define _ON_INPUT_JOYPAD4_
-#define _ON_INPUT_PAD_KEYBOARD_
+//#define _ON_INPUT_MOUSE_    // マウスの入力
+//#define _ON_INPUT_KEYBOARD_ // キーボードの入力
+//#define _ON_INPUT_KEYBOARD_AND_JOYPAD1_ // コントローラー１と対応するキーボードの入力
+//#define _ON_INPUT_JOYPAD1_  // コントローラー１の入力
+//#define _ON_INPUT_JOYPAD2_  // コントローラー２の入力
+//#define _ON_INPUT_JOYPAD3_  // コントローラー３の入力
+//#define _ON_INPUT_JOYPAD4_  // コントローラー４の入力
+//#define _ON_INPUT_PAD_KEYBOARD_ // コントローラーに対応するキーボードの入力
 
 class InputManager
 {
@@ -18,6 +19,17 @@ public:
     static bool PadClick(int DxInputKeyOrPad, int inputKey);    // ボタンを押した瞬間
     static bool PadPressed(int DxInputKeyOrPad, int inputKey);  // ボタンを押している間
     static bool PadRelease(int DxInputKeyOrPad, int inputKey);  // ボタンを離した瞬間
+
+#ifdef _ON_INPUT_MOUSE_
+private:
+    static int oldMouseKey;                 // 前回の入力マウスキー
+    static int nowMouseKey;                 // 今回の入力マウスキー
+public:
+    static void MouseUpdate();              // キーの更新
+    static bool MouseClick(int inputKey);   // ボタンを押した瞬間
+    static bool MousePressed(int inputKey); // ボタンを押している間
+    static bool MouseRelease(int inputKey); // ボタンを離した瞬間
+#endif // _ON_INPUT_MOUSE_
 
 #ifdef _ON_INPUT_KEYBOARD_
 private:
