@@ -6,7 +6,7 @@ private:
     int image;  // 一旦放置
 
 public:
-    StraightBullets(T_Location location);  // コンストラクタ
+    StraightBullets(Location2D location);  // コンストラクタ
 
 public:
     virtual void Update() override;

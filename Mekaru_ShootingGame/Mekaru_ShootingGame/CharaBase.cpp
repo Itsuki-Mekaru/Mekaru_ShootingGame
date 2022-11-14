@@ -1,4 +1,12 @@
 #include "CharaBase.h"
+#include "BulletsBase.h"
+
+
+
+CharaBase::CharaBase(Location2D location, int radius) : SphereCollider(location, radius)
+{
+
+}
 
 CharaBase::~CharaBase()
 {
@@ -8,12 +16,12 @@ CharaBase::~CharaBase()
     }
 }
 
-T_Location CharaBase::GetSpeed()
+Location2D CharaBase::GetSpeed()
 {
     return speed;
 }
 
-void CharaBase::SetSpeed(T_Location speed)
+void CharaBase::SetSpeed(Location2D speed)
 {
     this->speed.x = speed.x;
     this->speed.y = speed.y;

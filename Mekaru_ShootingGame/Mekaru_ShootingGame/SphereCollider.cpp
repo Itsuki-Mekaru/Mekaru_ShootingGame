@@ -1,7 +1,7 @@
 #include "SphereCollider.h"
 #include <math.h>
 
-SphereCollider::SphereCollider(Location2D location, float radius) : location(location), radius(radius)
+SphereCollider::SphereCollider(Location2D location, int radius) : location(location), radius(radius)
 {}
 
 bool SphereCollider::HitSphere(SphereCollider* collider)
@@ -14,14 +14,14 @@ bool SphereCollider::HitSphere(SphereCollider* collider)
     float vectorSize = location.GetLength();
 
     // 自分の半径　＋　相手の半径　を取得
-    float radius = this->radius + collider->GetRadius();
+    float radius = static_cast<float>(this->radius + collider->GetRadius());
 
     // ベクトルの大きさ　＜＝　合計の半径　の時当たってる
     bool ret = (vectorSize <= radius);
     return ret;
 }
 
-float SphereCollider::GetRadius()
+int SphereCollider::GetRadius()
 {
     return radius;
 }

@@ -5,10 +5,10 @@ class BulletsBase : public SphereCollider
 {
 protected:
     int damage;
-    T_Location speed;
+    Location2D speed;
 
 public: 
-    BulletsBase(T_Location location, float radius, int damage, T_Location speed)
+    BulletsBase(Location2D location, int radius, int damage, Location2D speed)
         : SphereCollider(location, radius), damage(damage), speed(speed)
     {
     }

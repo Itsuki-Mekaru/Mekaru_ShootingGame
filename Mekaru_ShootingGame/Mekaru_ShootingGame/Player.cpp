@@ -1,15 +1,14 @@
+#include <math.h>
 #include "DxLib.h"
 #include "Player.h"
-#include "KeyManager.h"
+#include "Input.h"
 #include "StraightBullets.h"
 
-T_Location getNewLocation(T_Location newLocation);
+Location2D getNewLocation(Location2D newLocation);
 
-Player::Player(T_Location location, float radius)
-    : SphereCollider(location, radius)
+Player::Player(Location2D location, int radius)
+    : CharaBase(location, radius), score(0), life(10)
 {
-    score = 0;  // åªç›ÉXÉRÉA
-    life = 10;  // HP
     // imageÇÃèâä˙âª
     // speedÇÃèâä˙âª
 
@@ -22,7 +21,7 @@ Player::Player(T_Location location, float radius)
 
 void Player::Update()
 {
-    T_Location newLocation = getNewLocation(GetLocation());
+    Location2D newLocation = getNewLocation(GetLocation());
     SetLocation(newLocation);
 
     int bulletCount;
@@ -63,7 +62,7 @@ void Player::Update()
 
 void Player::Draw()
 {
-    DrawCircle(GetLocation().x, GetLocation().y, GetRadius(), GetColor(255, 0, 0));
+    DrawCircle(static_cast<int>(floorf(GetLocation().x)), static_cast<int>(floorf(GetLocation().y)), GetRadius(), GetColor(255, 0, 0));
 
     int bulletCount;
     for(bulletCount = 0; bulletCount < 30; bulletCount++)
@@ -114,7 +113,7 @@ void Player::addScore(int point)
     }
 }
 
-T_Location getNewLocation(T_Location newLocation)
+Location2D getNewLocation(Location2D newLocation)
 {
     if(InputManager::KeyboardPressed(KEY_INPUT_W))
     {

@@ -14,11 +14,11 @@ private:
 public:
     GameMainScene()
     {
-        T_Location location;
-        location.x = 10;
-        location.y = 100;
+        Location2D location;
+        location.x = 10.f;
+        location.y = 100.f;
 
-        float radius = 10.f;
+        int radius = 10;
 
         player = new Player(location, radius);
 
@@ -27,7 +27,7 @@ public:
         {
             enemy[i] = nullptr;
         }
-        enemy[0] = new Enemy(T_Location{300, 0}, 20);
+        enemy[0] = new Enemy(Location2D{300.f, 0.f}, 20);
 
         items = new ItemBase*[10];
         for(int i = 0; i < 10; i++)

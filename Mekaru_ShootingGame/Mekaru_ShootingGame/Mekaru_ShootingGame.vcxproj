@@ -175,6 +175,7 @@
     <ClInclude Include="E_ITEM_TYPE.h" />
     <ClInclude Include="GameMainScene.h" />
     <ClInclude Include="HpPotion.h" />
+    <ClInclude Include="Input.h" />
     <ClInclude Include="ItemBase.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Location2D.h" />

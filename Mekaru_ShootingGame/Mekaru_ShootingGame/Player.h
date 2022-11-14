@@ -1,14 +1,14 @@
 #pragma once
 #include "CharaBase.h"
 
-class Player : public CharaBase, public SphereCollider
+class Player : public CharaBase
 {
 private:
     int score;  // åªç›ÉXÉRÉA
     int life;   // HP
 
 public:
-    Player(T_Location location, float radius);
+    Player(Location2D location, int radius);
 
 public:
     void Update() override;

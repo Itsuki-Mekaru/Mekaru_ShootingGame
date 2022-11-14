@@ -1,14 +1,11 @@
+#include <math.h>
 #include "DxLib.h"
 #include "Enemy.h"
 
-Enemy::Enemy(T_Location location, float radius)
-    : SphereCollider(location, radius)
+Enemy::Enemy(Location2D location, int radius)
+    : CharaBase(location, radius), hp(10), point(10)
 {
-    hp = 10;
-    point = 10;
-
-    speed = T_Location{0, 0.5};
-
+    speed =  Location2D{ 0.f, 0.5f };
     bullets = new BulletsBase * [30];
     for(int i = 0; i < 30; i++)
     {
@@ -18,14 +15,14 @@ Enemy::Enemy(T_Location location, float radius)
 
 void Enemy::Update()
 {
-    T_Location newLocation = GetLocation();
+    Location2D newLocation = GetLocation();
     newLocation.y += speed.y;
     SetLocation(newLocation);
 }
 
 void Enemy::Draw()
 {
-    DrawCircle(GetLocation().x, GetLocation().y, GetRadius(), GetColor(255, 0, 255));
+    DrawCircle(static_cast<int>(floorf(GetLocation().x)), static_cast<int>(floorf(GetLocation().y)), GetRadius(), GetColor(255, 0, 255));
 }
 
 void Enemy::Hit()

@@ -5,14 +5,14 @@ class SphereCollider
 {
 private:
     Location2D location;
-    float radius;
+    int radius;
 
 public:
-    SphereCollider(Location2D location, float radius);
+    SphereCollider(Location2D location, int radius);
 
 public:
     bool HitSphere(SphereCollider* collider);   // コライダー同士のヒット判定
-    float GetRadius();
+    int GetRadius();
     Location2D GetLocation();
     void SetLocation(Location2D value);
 };

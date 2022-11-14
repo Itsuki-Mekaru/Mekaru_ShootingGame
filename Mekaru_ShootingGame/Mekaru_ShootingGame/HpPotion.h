@@ -7,7 +7,7 @@ private:
     int healPower;
 
 public:
-    HpPotion(T_Location location);
+    HpPotion(Location2D location);
 
 public:
     virtual void Update();

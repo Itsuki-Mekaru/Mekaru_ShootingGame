@@ -1,14 +1,14 @@
 #pragma once
 #include "CharaBase.h"
 
-class Enemy : public CharaBase, public SphereCollider
+class Enemy : public CharaBase
 {
 private:
     int hp;
     int point;
 
 public:
-    Enemy(T_Location location, float radius);
+    Enemy(Location2D location, int radius);
 
 public:
     virtual void Update() override;
