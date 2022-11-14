@@ -6,6 +6,7 @@ void InputManager::Update()
 #ifdef _ON_INPUT_KEYBOARD_
     KeyboardUpdate();
 #endif // _ON_INPUT_KEYBOARD_
+
 #ifdef _ON_INPUT_KEYBOARD_AND_JOYPAD1_
     KeyAndPad1Update();
 #endif // _ON_INPUT_KEYBOARD_AND_JOYPAD1_
@@ -29,11 +30,6 @@ void InputManager::Update()
 #ifdef _ON_INPUT_PAD_KEYBOARD_
     PadKeyboardUpdate();
 #endif // _ON_INPUT_PAD_KEYBOARD_
-
-
-
-    //oldJoypadKey = nowJoypadKey;
-    //nowJoypadKey = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 }
 
 bool InputManager::PadClick(int DxInputKeyOrPad, int inputKey)
@@ -72,7 +68,6 @@ bool InputManager::PadClick(int DxInputKeyOrPad, int inputKey)
 
         default:
             return false;
-
     }
 }
 
@@ -112,7 +107,6 @@ bool InputManager::PadPressed(int DxInputKeyOrPad, int inputKey)
 
         default:
             return false;
-
     }
 }
 
@@ -152,7 +146,6 @@ bool InputManager::PadRelease(int DxInputKeyOrPad, int inputKey)
 
         default:
             return false;
-
     }
 }
 
@@ -176,14 +169,12 @@ bool InputManager::KeyboardClick(int inputKey)
     return ret;
 }
 
-// ボタンを押している間
 bool InputManager::KeyboardPressed(int inputKey)
 {
     bool ret = (nowKeyboardKey[inputKey] == 1);
     return ret;
 }
 
-// ボタンを離した瞬間
 bool InputManager::KeyboardRelease(int inputKey)
 {
     bool ret = (oldKeyboardKey[inputKey] == 1 && nowKeyboardKey[inputKey] == 0);
@@ -196,13 +187,25 @@ int InputManager::oldKeyAndPad1Key;
 int InputManager::nowKeyAndPad1Key;
 
 bool InputManager::KeyAndPad1Update()
-{}
+{
+    oldKeyAndPad1Key = nowKeyAndPad1Key;
+    nowKeyAndPad1Key = GetJoypadInputState(DX_INPUT_KEY_PAD1);
+}
 bool InputManager::KeyAndPad1Click(int inputKey)
-{}
+{
+    bool ret = ((nowKeyAndPad1Key & ~oldKeyAndPad1Key) & inputKey);
+    return ret;
+}
 bool InputManager::KeyAndPad1Pressed(int inputKey)
-{}
+{
+    bool ret = (nowKeyAndPad1Key & inputKey);
+    return ret;
+}
 bool InputManager::KeyAndPad1Release(int inputKey)
-{}
+{
+    bool ret = ((~nowKeyAndPad1Key & oldKeyAndPad1Key) & inputKey);
+    return ret;
+}
 #endif // _ON_INPUT_KEYBOARD_AND_JOYPAD1_
 
 #ifdef _ON_INPUT_JOYPAD1_
@@ -210,13 +213,25 @@ int InputManager::oldPad1Key;
 int InputManager::nowPad1Key;
 
 bool InputManager::Pad1Update()
-{}
+{
+    oldPad1Key = nowPad1Key;
+    nowPad1Key = GetJoypadInputState(DX_INPUT_PAD1);
+}
 bool InputManager::Pad1Click(int inputKey)
-{}
+{
+    bool ret = ((nowPad1Key & ~oldPad1Key) & inputKey);
+    return ret;
+}
 bool InputManager::Pad1Pressed(int inputKey)
-{}
+{
+    bool ret = (nowPad1Key & inputKey);
+    return ret;
+}
 bool InputManager::Pad1Release(int inputKey)
-{}
+{
+    bool ret = ((~nowPad1Key & oldPad1Key) & inputKey);
+    return ret;
+}
 #endif // _ON_INPUT_JOYPAD1_
 
 #ifdef _ON_INPUT_JOYPAD2_
@@ -224,13 +239,25 @@ int InputManager::oldPad2Key;                  // 前回の入力コントローラー２キー
 int InputManager::nowPad2Key;                  // 今回の入力コントローラー２キー
 
 bool InputManager::Pad2Update()
-{}
+{
+    oldPad2Key = nowPad2Key;
+    nowPad2Key = GetJoypadInputState(DX_INPUT_PAD2);
+}
 bool InputManager::Pad2Click(int inputKey)
-{}
+{
+    bool ret = ((nowPad2Key & ~oldPad2Key) & inputKey);
+    return ret;
+}
 bool InputManager::Pad2Pressed(int inputKey)
-{}
+{
+    bool ret = (nowPad2Key & inputKey);
+    return ret;
+}
 bool InputManager::Pad2Release(int inputKey)
-{}
+{
+    bool ret = ((~nowPad2Key & oldPad2Key) & inputKey);
+    return ret;
+}
 #endif // _ON_INPUT_JOYPAD2_
 
 #ifdef _ON_INPUT_JOYPAD3_
@@ -238,13 +265,25 @@ int InputManager::oldPad3Key;                  // 前回の入力コントローラー３キー
 int InputManager::nowPad3Key;                  // 今回の入力コントローラー３キー
 
 bool InputManager::Pad3Update()
-{}
+{
+    oldPad3Key = nowPad3Key;
+    nowPad3Key = GetJoypadInputState(DX_INPUT_PAD3);
+}
 bool InputManager::Pad3Click(int inputKey)
-{}
+{
+    bool ret = ((nowPad3Key & ~oldPad3Key) & inputKey);
+    return ret;
+}
 bool InputManager::Pad3Pressed(int inputKey)
-{}
+{
+    bool ret = (nowPad3Key & inputKey);
+    return ret;
+}
 bool InputManager::Pad3Release(int inputKey)
-{}
+{
+    bool ret = ((~nowPad3Key & oldPad3Key) & inputKey);
+    return ret;
+}
 #endif // _ON_INPUT_JOYPAD3_
 
 #ifdef _ON_INPUT_JOYPAD4_
@@ -252,13 +291,25 @@ int InputManager::oldPad4Key;                  // 前回の入力コントローラー４キー
 int InputManager::nowPad4Key;                  // 今回の入力コントローラー４キー
 
 bool InputManager::Pad4Update()
-{}
+{
+    oldPad4Key = nowPad4Key;
+    nowPad4Key = GetJoypadInputState(DX_INPUT_PAD4);
+}
 bool InputManager::Pad4Click(int inputKey)
-{}
+{
+    bool ret = ((nowPad4Key & ~oldPad4Key) & inputKey);
+    return ret;
+}
 bool InputManager::Pad4Pressed(int inputKey)
-{}
+{
+    bool ret = (nowPad4Key & inputKey);
+    return ret;
+}
 bool InputManager::Pad4Release(int inputKey)
-{}
+{
+    bool ret = ((~nowPad4Key & oldPad4Key) & inputKey);
+    return ret;
+}
 #endif // _ON_INPUT_JOYPAD4_
 
 #ifdef _ON_INPUT_PAD_KEYBOARD_
@@ -266,11 +317,23 @@ int InputManager::oldPadKeyboardKey;                   // 前回の入力パッドキーボ
 int InputManager::nowPadKeyboardKey;                   // 今回の入力パッドキーボードキー
 
 bool InputManager::PadKeyboardUpdate()
-{}
+{
+    oldPadKeyboardKey = nowPadKeyboardKey;
+    nowPadKeyboardKey = GetJoypadInputState(DX_INPUT_KEY);
+}
 bool InputManager::PadKeyboardClick(int inputKey)
-{}
+{
+    bool ret = ((nowPadKeyboardKey & ~oldPadKeyboardKey) & inputKey);
+    return ret;
+}
 bool InputManager::PadKeyboardPressed(int inputKey)
-{}
+{
+    bool ret = (nowPadKeyboardKey & inputKey);
+    return ret;
+}
 bool InputManager::PadKeyboardRelease(int inputKey)
-{}
+{
+    bool ret = ((~nowPadKeyboardKey & oldPadKeyboardKey) & inputKey);
+    return ret;
+}
 #endif // _ON_INPUT_PAD_KEYBOARD_
