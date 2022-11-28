@@ -1,12 +1,14 @@
 #pragma once
 #include "BulletsBase.h"
-class StraightBullets : public BulletBase
+
+class CircleBullet : public BulletBase
 {
 public:
-    StraightBullets(T_Location location, T_Location speed = T_Location{ 0, -2 });
+    CircleBullet(T_Location location, float speed, float radAngle, int num);
 
 public:
     virtual void Update() override;
     virtual void Draw() override;
     virtual bool isScreenOut() override;
 };
+

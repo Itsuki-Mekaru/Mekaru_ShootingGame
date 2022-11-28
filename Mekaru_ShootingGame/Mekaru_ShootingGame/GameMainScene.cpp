@@ -11,7 +11,8 @@ GameMainScene::GameMainScene()
     {
         enemy[i] = nullptr;
     }
-    enemy[0] = new Enemy(T_Location{ 200, 0 });
+    //enemy[0] = new Enemy(T_Location{ 200, 0 });
+    enemy[0] = new Enemy(T_Location{ SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 });
 
     items = new ItemBase * [10];
     for(int i = 0; i < 10; i++)
@@ -44,7 +45,7 @@ void GameMainScene::Update()
         items[i]->Update();
     }
 
-    BulletsBase** bullet = player->GetBullets();
+    BulletBase** bullet = player->GetBullets();
     for(enemyCount = 0; enemyCount < 10; enemyCount++)
     {
         if(enemy[enemyCount] == nullptr)
@@ -66,7 +67,7 @@ void GameMainScene::Update()
                 enemy[enemyCount]->Hit(bullet[bulletCount]->GetDamage());
 
                 // 弾を削除します。
-                player->DeleteBullet(bulletCount);
+                player->DeleteBullet(bulletCount, 30);
                 bulletCount--;
 
                 // エネミーのHPが０以下だったら、エネミーを削除します。
@@ -114,7 +115,7 @@ void GameMainScene::Update()
         }
         bullet = enemy[enemyCount]->GetBullets();
 
-        for(int i = 0; i < 30; i++)
+        for(int i = 0; i < _ENEMY_BULLET_ALL_; i++)
         {
             if(bullet[i] == nullptr)
             {
@@ -125,7 +126,7 @@ void GameMainScene::Update()
             {
                 player->Hit(bullet[i]->GetDamage());
 
-                enemy[enemyCount]->DeleteBullet(i);
+                enemy[enemyCount]->DeleteBullet(i, _ENEMY_BULLET_ALL_);
                 i--;
             }
         }

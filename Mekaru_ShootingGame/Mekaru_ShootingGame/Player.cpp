@@ -7,7 +7,7 @@
 Player::Player(T_Location location)
     : CharaBase(location, 10.f, T_Location{2, 2}), score(0), life(10)
 {
-    bullets = new BulletsBase*[30];
+    bullets = new BulletBase*[30];
     for(int i = 0; i < 30; i++)
     {
         bullets[i] = nullptr;
@@ -52,7 +52,7 @@ void Player::Update()
         // ‰æ–ÊŠO‚És‚Á‚½‚ç’e‚ðÁ‚·
         if(bullets[bulletCount]->isScreenOut())
         {
-            DeleteBullet(bulletCount);
+            DeleteBullet(bulletCount, 30);
             bulletCount--;
         }
     }

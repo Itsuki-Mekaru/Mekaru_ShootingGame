@@ -3,7 +3,7 @@
 #include "common.h"
 
 StraightBullets::StraightBullets(T_Location location, T_Location speed)
-    : BulletsBase(location, 5.f, 1, speed)
+    : BulletBase(location, 5.f, 1, speed)
 {
 }
 

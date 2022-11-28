@@ -1,6 +1,8 @@
 #pragma once
 #include "CharaBase.h"
 
+#define _ENEMY_BULLET_ALL_ 100
+
 class Enemy : public CharaBase
 {
 private:

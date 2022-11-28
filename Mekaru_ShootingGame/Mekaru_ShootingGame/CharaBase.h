@@ -6,7 +6,7 @@ class CharaBase : public SphereCollider
 {
 protected:
     T_Location speed;
-    BulletsBase** bullets;
+    BulletBase** bullets;
     int* image;
 
 public:
@@ -16,7 +16,7 @@ public:
     virtual void Update() = 0;
     virtual void Draw() = 0;
     virtual void Hit(int damage) = 0;
-    BulletsBase** GetBullets();
-    void DeleteBullet(int bulletNum);
+    BulletBase** GetBullets();
+    void DeleteBullet(int bulletNum, int all);
 };
 
