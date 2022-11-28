@@ -8,7 +8,7 @@ Enemy::Enemy(T_Location location, float radius)
     hp = 10;
     point = 10;
 
-    speed = T_Location{0, 0.5};
+    speed = T_Location{ 0, 0.5 };
 
     bullets = new BulletsBase * [30];
     for(int i = 0; i < 30; i++)
@@ -52,7 +52,7 @@ void Enemy::Update()
 
     if(bulletCount < 30 && bullets[bulletCount] == nullptr)
     {
-        bullets[bulletCount] = new StraightBullets(GetLocation(), T_Location{0, -3});
+        bullets[bulletCount] = new StraightBullets(GetLocation(), T_Location{ 0, 2 });
     }
 }
 
