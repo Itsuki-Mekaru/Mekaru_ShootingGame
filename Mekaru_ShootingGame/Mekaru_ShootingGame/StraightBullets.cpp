@@ -1,5 +1,6 @@
 #include "StraightBullets.h"
 #include "DxLib.h"
+#include "common.h"
 
 StraightBullets::StraightBullets(T_Location location, T_Location speed)
     : BulletsBase(location, 5.f, 1, speed)
@@ -27,7 +28,20 @@ bool StraightBullets::isDeath()
         return true;
     }
 
-    if(720 <= y)
+    y = GetLocation().y - GetRadius();
+    if(SCREEN_HEIGHT <= y)
+    {
+        return true;
+    }
+
+    float x = GetLocation().x + GetRadius();
+    if(x <= 0)
+    {
+        return true;
+    }
+
+    x = GetLocation().x - GetRadius();
+    if(SCREEN_WIDTH <= x)
     {
         return true;
     }

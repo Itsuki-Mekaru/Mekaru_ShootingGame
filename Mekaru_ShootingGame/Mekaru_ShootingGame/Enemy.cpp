@@ -2,11 +2,14 @@
 #include "Enemy.h"
 #include "StraightBullets.h"
 
+#define ATTACK_INTERVAL 20
+
 Enemy::Enemy(T_Location location, float radius)
     : SphereCollider(location, radius)
 {
     hp = 10;
     point = 10;
+    WaitCount = 99;
 
     speed = T_Location{ 0, 0.5 };
 
@@ -50,9 +53,14 @@ void Enemy::Update()
         }
     }
 
-    if(bulletCount < 30 && bullets[bulletCount] == nullptr)
+    WaitCount++;
+    if(ATTACK_INTERVAL <= WaitCount)
     {
-        bullets[bulletCount] = new StraightBullets(GetLocation(), T_Location{ 0, 2 });
+        if(bulletCount < 30 && bullets[bulletCount] == nullptr)
+        {
+            WaitCount = 0;
+            bullets[bulletCount] = new StraightBullets(GetLocation(), T_Location{ 0, 2 });
+        }
     }
 }
 

@@ -3,6 +3,7 @@
 **	　ブロック崩しゲームの作成(2018)
 ********************************************************************/
 #include "DxLib.h"
+#include "common.h"
 #include "SceneManager.h"
 #include "GameMainScene.h"
 
@@ -14,6 +15,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     SetMainWindowText("シューティングゲーム");    // タイトルを設定
 
     ChangeWindowMode(TRUE);		// ウィンドウモードで起動
+
+    SetWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+    SetGraphMode(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_COLOR_BIT_16);
 
     if(DxLib_Init() == -1) return -1;	// DXライブラリの初期化処理
 
