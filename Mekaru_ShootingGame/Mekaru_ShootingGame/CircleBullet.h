@@ -4,7 +4,8 @@
 class CircleBullet : public BulletBase
 {
 public:
-    CircleBullet(T_Location location, float speed, float radAngle, int num);
+    CircleBullet(T_Location location, 
+                    float speed, int degAngle);
 
 public:
     virtual void Update() override;

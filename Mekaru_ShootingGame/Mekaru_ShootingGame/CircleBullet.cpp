@@ -4,15 +4,15 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-CircleBullet::CircleBullet(T_Location location, float speed, float radAngle, int num)
-    : BulletBase(location, 5.f, 1, T_Location{0,0})
+CircleBullet::CircleBullet(T_Location location, float speed, int degAngle)
+    : BulletBase(location, 5.f, 1, T_Location{0, 0})
 {
-    int b = (30 * num) % 360;
-    double a = (M_PI / 180) * b;
-    float x = (abs(b) == 90 || b == 270) ? 0 : cos(a);
-    float y = (abs(b) == 180) ? 0 : sin(a);
+    int deg = degAngle % 360;
+    double rad = (M_PI / 180) * deg;
+    float x = (abs(deg) == 90 || abs(deg) == 270) ? 0 : cos(rad);
+    float y = sin(rad);
 
-    this->speed = T_Location{static_cast<float>(x), static_cast<float>(y)};
+    this->speed = T_Location{ (speed * x), (speed * y) };
 }
 
 void CircleBullet::Update()
