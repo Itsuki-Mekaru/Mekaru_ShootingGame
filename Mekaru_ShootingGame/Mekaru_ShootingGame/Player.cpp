@@ -103,6 +103,12 @@ void Player::Hit(int bulletsCount)
     }
 }
 
+void Player::Hit(BulletsBase* bullet)
+{
+    int damage = bullet->GetDamage();
+    life -= damage;
+}
+
 void Player::Hit(ItemBase* item)
 {
     E_ITEM_TYPE type = item->GetType();

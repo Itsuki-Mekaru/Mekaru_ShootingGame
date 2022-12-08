@@ -18,5 +18,6 @@ public:
     virtual void Hit(int damage);
     bool HpCheck();
     int GetPoint();
+    void DeleteBullet(int bulletCount);
 };
 

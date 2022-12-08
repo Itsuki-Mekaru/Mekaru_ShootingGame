@@ -79,6 +79,32 @@ AbstractScene* GameMainScene::Update()
         }
     }
 
+    for(int EnemyCount = 0; EnemyCount < 10; EnemyCount++)
+    {
+        if(enemy[EnemyCount] == nullptr)
+        {
+            break;
+        }
+        BulletsBase** enemyBullet = enemy[EnemyCount]->GetBullets();
+
+        for(int bulletsCount = 0; bulletsCount < 30; bulletsCount++)
+        {
+            if(enemyBullet[bulletsCount] == nullptr)
+            {
+                break;
+            }
+
+            if(enemyBullet[bulletsCount]->HitSphere(player))
+            {
+                // 弾とプレイヤーが当たってる
+                player->Hit(enemyBullet[bulletsCount]);
+
+                enemy[EnemyCount]->DeleteBullet(bulletsCount);
+                bulletsCount--;
+            }
+        }
+    }
+
     // アイテムとプレイヤーの当たり判定
     for(int itemCount = 0; itemCount < 10; itemCount++)
     {
@@ -99,7 +125,7 @@ AbstractScene* GameMainScene::Update()
                 {
                     break;
                 }
-                items[i-1] = items[i];
+                items[i - 1] = items[i];
                 items[i] = nullptr;
             }
         }
