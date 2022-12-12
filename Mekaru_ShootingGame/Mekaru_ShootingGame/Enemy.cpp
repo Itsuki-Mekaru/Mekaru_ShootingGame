@@ -1,8 +1,9 @@
 #include "DxLib.h"
 #include "Enemy.h"
 #include "StraightBullets.h"
+#include "CircleBullet.h"
 
-#define ATTACK_INTERVAL 20
+#define ATTACK_INTERVAL 5
 
 Enemy::Enemy(T_Location location, float radius)
     : SphereCollider(location, radius)
@@ -10,6 +11,7 @@ Enemy::Enemy(T_Location location, float radius)
     hp = 10;
     point = 10;
     WaitCount = 99;
+    shotNum = 0;
 
     speed = T_Location{ 0, 0.5 };
 
@@ -22,9 +24,9 @@ Enemy::Enemy(T_Location location, float radius)
 
 void Enemy::Update()
 {
-    T_Location newLocation = GetLocation();
-    newLocation.y += speed.y;
-    SetLocation(newLocation);
+    //T_Location newLocation = GetLocation();
+    //newLocation.y += speed.y;
+    //SetLocation(newLocation);
 
     int bulletCount;
     for(bulletCount = 0; bulletCount < 30; bulletCount++)
@@ -48,7 +50,10 @@ void Enemy::Update()
         if(bulletCount < 30 && bullets[bulletCount] == nullptr)
         {
             WaitCount = 0;
-            bullets[bulletCount] = new StraightBullets(GetLocation(), T_Location{ 0, 2 });
+            shotNum++;
+            bullets[bulletCount] = new CircleBullet(GetLocation(), 2.f, (20 * shotNum));
+
+            //bullets[bulletCount] = new StraightBullets(GetLocation(), T_Location{ 0, 2 });
         }
     }
 }

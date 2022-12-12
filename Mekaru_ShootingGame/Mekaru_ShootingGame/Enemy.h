@@ -7,6 +7,7 @@ private:
     int hp;
     int point;
     int WaitCount;
+    int shotNum;
 
 public:
     Enemy(T_Location location, float radius);
