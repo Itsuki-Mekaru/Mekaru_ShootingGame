@@ -3,10 +3,15 @@
 #include "StraightBullets.h"
 #include "CircleBullet.h"
 
-#define _ENEMY_BULLET_ALL_ 100
+T_Location locations[4] = {
+    {0, 0},
+    {0, 0},
+    {0, 0},
+    {0, 0}
+};
 
 Enemy::Enemy(T_Location location)
-    : CharaBase(location, 20.f, T_Location{ 0, 0.5 })
+    : CharaBase(location, 20.f, T_Location{ 0, 0 })
     , hp(10), point(10), shotNum(0)
 {
     bullets = new BulletBase * [_ENEMY_BULLET_ALL_];

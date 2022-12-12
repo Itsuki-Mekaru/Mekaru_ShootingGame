@@ -1,7 +1,7 @@
 #pragma once
 #include "CharaBase.h"
 
-#define _ENEMY_BULLET_ALL_ 100
+#define _ENEMY_BULLET_ALL_ 300
 
 class Enemy : public CharaBase
 {
