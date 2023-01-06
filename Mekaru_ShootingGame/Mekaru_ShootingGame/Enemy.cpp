@@ -3,16 +3,20 @@
 #include "StraightBullets.h"
 #include "CircleBullet.h"
 
-T_Location locations[4] = {
-    { 640, 150},
-    {1200.4, 150},
-    {  80.2, 150},
+struct ENEMY_MOVE
+{
+    int pattern;
+    int waitTime;
+    T_Location location;
 };
 
-int next[3] = {
-    1,
-    2,
-    1
+ENEMY_MOVE MovePttarn[6] = {
+    {0,  0,  640.f, 150.f},
+    {1, 60,    0.f,   0.f},
+    {0,  0,1200.4f, 150.f},
+    {1, 60,    0.f,   0.f},
+    {0,  0,  80.2f, 150.f},
+    {1, 60,    0.f,   0.f}
 };
 
 int current = 0;
@@ -111,56 +115,75 @@ void Enemy::Move()
 {
     T_Location nextLocation = GetLocation();
 
-    if((nextLocation.y == locations[current].y) &&
-        (nextLocation.x == locations[current].x))
+    switch(MovePttarn[current].pattern)
     {
-        current = next[current];
-    }
-    else
-    {
-        if(nextLocation.y != locations[current].y)
-        {
-            if(nextLocation.y < locations[current].y)
-            {
-                nextLocation.y += speed.y;
-                if((GetLocation().y <= locations[current].y) &&
-                   (locations[current].y <= nextLocation.y))
-                {
-                    nextLocation.y = locations[current].y;
-                }
-            }
-            else
-            {
-                nextLocation.y -= speed.y;
-                if((nextLocation.y <= locations[current].y) &&
-                   (locations[current].y <= GetLocation().y))
-                {
-                    nextLocation.y = locations[current].y;
-                }
-            }
-        }
+        case 0:
+            break;
 
-        if(nextLocation.x != locations[current].x)
-        {
-            if(nextLocation.x < locations[current].x)
+            if((nextLocation.y == MovePttarn[current].location.y) &&
+               (nextLocation.x == MovePttarn[current].location.x))
             {
-                nextLocation.x += speed.x;
-                if((GetLocation().x <= locations[current].x) &&
-                   (locations[current].x <= nextLocation.x))
+                current++;
+
+                int maxsize = (sizeof(MovePttarn) / sizeof(*MovePttarn));
+                if(current == maxsize)
                 {
-                    nextLocation.x = locations[current].x;
+                    current = 0;
                 }
             }
             else
             {
-                nextLocation.x -= speed.x;
-                if((nextLocation.x <= locations[current].x) &&
-                   (locations[current].x <= GetLocation().x))
+                if(nextLocation.y != MovePttarn[current].location.y)
                 {
-                    nextLocation.x = locations[current].x;
+                    if(nextLocation.y < MovePttarn[current].location.y)
+                    {
+                        nextLocation.y += speed.y;
+                        if((GetLocation().y <= MovePttarn[current].location.y) &&
+                           (MovePttarn[current].location.y <= nextLocation.y))
+                        {
+                            nextLocation.y = MovePttarn[current].location.y;
+                        }
+                    }
+                    else
+                    {
+                        nextLocation.y -= speed.y;
+                        if((nextLocation.y <= MovePttarn[current].location.y) &&
+                           (MovePttarn[current].location.y <= GetLocation().y))
+                        {
+                            nextLocation.y = MovePttarn[current].location.y;
+                        }
+                    }
                 }
-            }
-        }
+
+                if(nextLocation.x != MovePttarn[current].location.x)
+                {
+                    if(nextLocation.x < MovePttarn[current].location.x)
+                    {
+                        nextLocation.x += speed.x;
+                        if((GetLocation().x <= MovePttarn[current].location.x) &&
+                           (MovePttarn[current].location.x <= nextLocation.x))
+                        {
+                            nextLocation.x = MovePttarn[current].location.x;
+                        }
+                    }
+                    else
+                    {
+                        nextLocation.x -= speed.x;
+                        if((nextLocation.x <= MovePttarn[current].location.x) &&
+                           (MovePttarn[current].location.x <= GetLocation().x))
+                        {
+                            nextLocation.x = MovePttarn[current].location.x;
+                        }
+                    }
+                }
+
+        case 1:
+            break;
+
+        default:
+    };
+
+    
     }
 
     SetLocation(nextLocation);
