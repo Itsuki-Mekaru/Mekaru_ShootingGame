@@ -68,9 +68,9 @@ void Player::Update()
 
 void Player::Draw()
 {
-#define _DEBUG_MODE_PLAYE_
+//#define _DEBUG_MODE_PLAYE_
 
-#ifdef _DEBUG_MODE_PLAYE_
+#ifdef a_DEBUG_MODE_PLAYE_
     DrawFormatString(10, 10, GetColor(255, 255, 255), "life = %d", life);
     DrawFormatString(10, 30, GetColor(255, 255, 255), "score = %d", score);
 #endif

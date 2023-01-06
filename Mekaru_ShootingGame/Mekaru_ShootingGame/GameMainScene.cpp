@@ -3,7 +3,7 @@
 
 GameMainScene::GameMainScene()
 {
-    T_Location location = T_Location{ 20, 100 };
+    T_Location location = T_Location{ SCREEN_WIDTH / 2.f, 100 };
     player = new Player(location);
 
     enemy = new Enemy * [10];
@@ -12,7 +12,7 @@ GameMainScene::GameMainScene()
         enemy[i] = nullptr;
     }
     //enemy[0] = new Enemy(T_Location{ 200, 0 });
-    enemy[0] = new Enemy(T_Location{ SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 });
+    enemy[0] = new Enemy(T_Location{ SCREEN_WIDTH / 2.f, -20.f });
 
     items = new ItemBase * [10];
     for(int i = 0; i < 10; i++)
