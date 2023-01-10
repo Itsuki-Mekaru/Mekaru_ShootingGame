@@ -3,8 +3,26 @@
 #include "StraightBullets.h"
 #include "CircleBullet.h"
 
-T_Location locations[4] = {
-    { 640, 150},
+struct MoveInformation
+{
+    T_Location targetLocation;
+    int pattern;
+    int next;
+    int waitTimeFlame;
+    int attackPattern;
+};
+
+MoveInformation moveInfo[10] = {
+    {   640, 150, 0, 1,   0, 0},
+    {1200.4, 150, 0, 2,   0, 0},
+    {     0,   0, 1, 3, 180, 1},
+    {  80.2, 150, 0, 4,   0, 2},
+    {     0,   0, 1, 5, 180, 1},
+    {1200.4, 150, 0, 2,   0, 1},
+};
+
+T_Location locations[3] = {
+    {   640, 150},
     {1200.4, 150},
     {  80.2, 150},
 };
