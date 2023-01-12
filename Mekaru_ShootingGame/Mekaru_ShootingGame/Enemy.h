@@ -20,5 +20,7 @@ public:
     bool HpCheck();
     int GetPoint();
     void DeleteBullet(int bulletCount);
+
+    void Move();
 };
 

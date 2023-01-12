@@ -5,6 +5,25 @@
 
 #define ATTACK_INTERVAL 5
 
+struct T_MoveInformation
+{
+    int pattern;    // 行動パターン
+    T_Location destination; // 目的地
+    int nextArrayNum;   // 次の配列番号
+    int waitFrameTime;  // 待ち時間
+    int attackType;  // 攻撃の種類
+};
+
+T_MoveInformation moveInfo[5] = {
+    { 0,    640, 150, 1,   0, 0},
+    { 0, 1200.4, 150, 2,   0, 2},
+    { 1,      0,   0, 3, 300, 1},
+    { 0,   80.2, 150, 4,   0, 2},
+    { 1,      0,   0, 1, 300, 1}
+};
+
+int current = 0;
+
 Enemy::Enemy(T_Location location, float radius)
     : SphereCollider(location, radius)
 {
@@ -13,7 +32,7 @@ Enemy::Enemy(T_Location location, float radius)
     WaitCount = 99;
     shotNum = 0;
 
-    speed = T_Location{ 0, 0.5 };
+    speed = T_Location{ 1, 1 };
 
     bullets = new BulletsBase * [30];
     for(int i = 0; i < 30; i++)
@@ -27,6 +46,8 @@ void Enemy::Update()
     //T_Location newLocation = GetLocation();
     //newLocation.y += speed.y;
     //SetLocation(newLocation);
+
+    Move();
 
     int bulletCount;
     for(bulletCount = 0; bulletCount < 30; bulletCount++)
@@ -115,4 +136,60 @@ void Enemy::DeleteBullet(int bulletCount)
         bullets[i - 1] = bullets[i];
         bullets[i] = nullptr;
     }
+}
+
+void Enemy::Move()
+{
+    T_Location newLocation = GetLocation();
+    
+    if((newLocation.x == moveInfo[current].destination.x) &&
+       (newLocation.y == moveInfo[current].destination.y))
+    {
+        current = moveInfo[current].nextArrayNum;
+        return;
+    }
+    else
+    {
+        if(newLocation.x != moveInfo[current].destination.x)
+        {
+            if(newLocation.x < moveInfo[current].destination.x)
+            {
+                newLocation.x += speed.x;
+                if(moveInfo[current].destination.x < newLocation.x)
+                {
+                    newLocation.x = moveInfo[current].destination.x;
+                }
+            }
+            else
+            {
+                newLocation.x -= speed.x;
+                if(newLocation.x < moveInfo[current].destination.x)
+                {
+                    newLocation.x = moveInfo[current].destination.x;
+                }
+            }
+        }
+
+        if(newLocation.y != moveInfo[current].destination.y)
+        {
+            if(newLocation.y < moveInfo[current].destination.y)
+            {
+                newLocation.y += speed.y;
+                if(moveInfo[current].destination.y < newLocation.y)
+                {
+                    newLocation.y = moveInfo[current].destination.y;
+                }
+            }
+            else
+            {
+                newLocation.y -= speed.y;
+                if(newLocation.y < moveInfo[current].destination.y)
+                {
+                    newLocation.y = moveInfo[current].destination.y;
+                }
+            }
+        }
+    }
+
+    SetLocation(newLocation);
 }
