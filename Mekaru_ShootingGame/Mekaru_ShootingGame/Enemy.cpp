@@ -8,7 +8,6 @@ struct ENEMY_MOVE
     int pattern;
     int waitTime;
     T_Location location;
-    int next;
 };
 
 ENEMY_MOVE MovePttarn[6] = {
@@ -21,7 +20,6 @@ ENEMY_MOVE MovePttarn[6] = {
 };
 
 int current = 0;
-int waitTime = 0;
 
 Enemy::Enemy(T_Location location)
     : CharaBase(location, 20.f, T_Location{ 1, 2 })
@@ -31,69 +29,6 @@ Enemy::Enemy(T_Location location)
     for(int i = 0; i < _ENEMY_BULLET_ALL_; i++)
     {
         bullets[i] = nullptr;
-    }
-}
-
-void Enemy::Update()
-{
-    //T_Location newLocation = GetLocation();
-    //newLocation.y += speed.y;
-    //SetLocation(newLocation);
-
-    switch(MovePttarn[current].pattern)
-    {
-        case 0:
-            Move();
-            break;
-
-        case 1:
-            waitTime++;
-            if(MovePttarn[current].waitTime <= waitTime)
-            {
-                waitTime = 0;
-                current = MovePttarn[current].next;
-            }
-            break;
-
-        default:
-            break;
-    }
-
-    int bulletCount;
-    for(bulletCount = 0; bulletCount < 30; bulletCount++)
-    {
-        if(bullets[bulletCount] == nullptr)
-        {
-            break;
-        }
-        bullets[bulletCount]->Update();
-
-        if(bullets[bulletCount]->isScreenOut())
-        {
-            DeleteBullet(bulletCount, _ENEMY_BULLET_ALL_);
-            bulletCount--;
-        }
-    }
-
-    if(MovePttarn[current].attackType != 0)
-    {
-        WaitCount++;
-        if(ATTACK_INTERVAL <= WaitCount)
-        {
-            if(bulletCount < 30 && bullets[bulletCount] == nullptr)
-            {
-                WaitCount = 0;
-                if(moveInfo[current].attackType == 1)
-                {
-                    bullets[bulletCount] = new StraightBullets(GetLocation(), T_Location{ 0, 2 });
-                }
-                else if(moveInfo[current].attackType == 2)
-                {
-                    shotNum++;
-                    bullets[bulletCount] = new CircleBullet(GetLocation(), 2.f, (20 * shotNum));
-                }
-            }
-        }
     }
 }
 
