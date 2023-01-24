@@ -23,6 +23,7 @@ T_MoveInformation moveInfo[5] = {
 };
 
 int current = 0;
+int waitTime = 0;
 
 Enemy::Enemy(T_Location location, float radius)
     : SphereCollider(location, radius)
@@ -47,7 +48,24 @@ void Enemy::Update()
     //newLocation.y += speed.y;
     //SetLocation(newLocation);
 
-    Move();
+    switch(moveInfo[current].pattern)
+    {
+        case 0:
+            Move();
+            break;
+
+        case 1:
+            waitTime++;
+            if(moveInfo[current].waitFrameTime <= waitTime)
+            {
+                waitTime = 0;
+                current = moveInfo[current].nextArrayNum;
+            }
+            break;
+
+        default:
+            break;
+    }
 
     int bulletCount;
     for(bulletCount = 0; bulletCount < 30; bulletCount++)
@@ -65,16 +83,23 @@ void Enemy::Update()
         }
     }
 
-    WaitCount++;
-    if(ATTACK_INTERVAL <= WaitCount)
+    if(moveInfo[current].attackType != 0)
     {
-        if(bulletCount < 30 && bullets[bulletCount] == nullptr)
+        WaitCount++;
+        if(ATTACK_INTERVAL <= WaitCount)
         {
-            WaitCount = 0;
-            shotNum++;
-            bullets[bulletCount] = new CircleBullet(GetLocation(), 2.f, (20 * shotNum));
-
-            //bullets[bulletCount] = new StraightBullets(GetLocation(), T_Location{ 0, 2 });
+            if(bulletCount < 30 && bullets[bulletCount] == nullptr)
+            {
+                WaitCount = 0;
+                if(moveInfo[current].attackType == 1)
+                {
+                    bullets[bulletCount] = new StraightBullets(GetLocation(), T_Location{ 0, 2 });
+                }
+                else if(moveInfo[current].attackType == 2){
+                    shotNum++;
+                    bullets[bulletCount] = new CircleBullet(GetLocation(), 2.f, (20 * shotNum));
+                }
+            }
         }
     }
 }
@@ -141,7 +166,7 @@ void Enemy::DeleteBullet(int bulletCount)
 void Enemy::Move()
 {
     T_Location newLocation = GetLocation();
-    
+
     if((newLocation.x == moveInfo[current].destination.x) &&
        (newLocation.y == moveInfo[current].destination.y))
     {
