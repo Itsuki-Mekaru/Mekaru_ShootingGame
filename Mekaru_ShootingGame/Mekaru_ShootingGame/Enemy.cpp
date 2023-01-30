@@ -3,37 +3,25 @@
 #include "StraightBullets.h"
 #include "CircleBullet.h"
 
-struct MoveInformation
+struct T_MoveInformation
 {
-    T_Location targetLocation;
-    int pattern;
-    int next;
-    int waitTimeFlame;
-    int attackPattern;
+    int pattern;            // 行動パターン
+    T_Location destination; // 目的地
+    int nextArrayNum;       // 次の配列番号
+    int waitFrameTime;      // 待ち時間
+    int attackType;         // 攻撃の種類
 };
 
-MoveInformation moveInfo[10] = {
-    {   640, 150, 0, 1,   0, 0},
-    {1200.4, 150, 0, 2,   0, 0},
-    {     0,   0, 1, 3, 180, 1},
-    {  80.2, 150, 0, 4,   0, 2},
-    {     0,   0, 1, 5, 180, 1},
-    {1200.4, 150, 0, 2,   0, 1},
-};
-
-T_Location locations[3] = {
-    {   640, 150},
-    {1200.4, 150},
-    {  80.2, 150},
-};
-
-int next[3] = {
-    1,
-    2,
-    1
+T_MoveInformation moveInfo[5] = {
+    { 0,    640, 150, 1,   0, 0},
+    { 0, 1200.4, 150, 2,   0, 2},
+    { 1,      0,   0, 3, 300, 1},
+    { 0,   80.2, 150, 4,   0, 2},
+    { 1,      0,   0, 1, 300, 1}
 };
 
 int current = 0;
+int waitTime = 0;
 
 Enemy::Enemy(T_Location location)
     : CharaBase(location, 20.f, T_Location{ 1, 2 })
@@ -71,13 +59,21 @@ void Enemy::Update()
         }
     }
 
-    if(bulletCount < _ENEMY_BULLET_ALL_ && bullets[bulletCount] == nullptr)
+    if(moveInfo[current].attackType != 0)
     {
-        // 弾幕を作ろう
-        bullets[bulletCount] =
-            new CircleBullet(GetLocation(), 2.f, (20 * shotNum));
-        shotNum++;
-        //bullets[bulletCount] = new StraightBullets(GetLocation(), T_Location{ 0, 2 });
+        if(bulletCount < _ENEMY_BULLET_ALL_ && bullets[bulletCount] == nullptr)
+        {
+            if(moveInfo[current].attackType == 1)
+            {
+                bullets[bulletCount] = new StraightBullets(GetLocation(), T_Location{ 0, 2 });
+            }
+            else if(moveInfo[current].attackType == 2)
+            {
+                shotNum++;
+                bullets[bulletCount] =
+                    new CircleBullet(GetLocation(), 2.f, (20 * shotNum));
+            }
+        }
     }
 
 #define _DEBUG_MODE_PLAYE_
@@ -130,7 +126,7 @@ void Enemy::Move()
     T_Location nextLocation = GetLocation();
 
     if((nextLocation.y == locations[current].y) &&
-        (nextLocation.x == locations[current].x))
+       (nextLocation.x == locations[current].x))
     {
         current = next[current];
     }
