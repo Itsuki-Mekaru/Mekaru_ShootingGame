@@ -397,3 +397,4 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 Mekaru_ShootingGame/Mekaru_ShootingGame/Log.txt
+Mekaru_ShootingGame/Mekaru_ShootingGame/Enemy.cpp

@@ -5,11 +5,17 @@
 
 struct T_MoveInformation
 {
+<<<<<<< HEAD
     int pattern;            // �s���p�^�[��
     T_Location destination; // �ړI�n
     int nextArrayNum;       // ���̔z��ԍ�
     int waitFrameTime;      // �҂�����
     int attackType;         // �U���̎��
+=======
+    int pattern;
+    int waitTime;
+    T_Location location;
+>>>>>>> parent of d230e88 (Update Enemy.cpp)
 };
 
 T_MoveInformation moveInfo[5] = {
