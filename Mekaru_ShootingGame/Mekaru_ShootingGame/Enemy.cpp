@@ -5,11 +5,11 @@
 
 struct T_MoveInformation
 {
-    int pattern;            // s“®ƒpƒ^[ƒ“
-    T_Location destination; // –Ú“I’n
-    int nextArrayNum;       // ŽŸ‚Ì”z—ñ”Ô†
-    int waitFrameTime;      // ‘Ò‚¿ŽžŠÔ
-    int attackType;         // UŒ‚‚ÌŽí—Þ
+    int pattern;            // ï¿½sï¿½ï¿½ï¿½pï¿½^ï¿½[ï¿½ï¿½
+    T_Location destination; // ï¿½Ú“Iï¿½n
+    int nextArrayNum;       // ï¿½ï¿½ï¿½Ì”zï¿½ï¿½Ôï¿½
+    int waitFrameTime;      // ï¿½Ò‚ï¿½ï¿½ï¿½ï¿½ï¿½
+    int attackType;         // ï¿½Uï¿½ï¿½ï¿½ÌŽï¿½ï¿½
 };
 
 T_MoveInformation moveInfo[5] = {
@@ -21,7 +21,6 @@ T_MoveInformation moveInfo[5] = {
 };
 
 int current = 0;
-int waitTime = 0;
 
 Enemy::Enemy(T_Location location)
     : CharaBase(location, 20.f, T_Location{ 1, 2 })
@@ -51,7 +50,7 @@ void Enemy::Update()
         }
         bullets[bulletCount]->Update();
 
-        // ‰æ–ÊŠO‚És‚Á‚½‚ç’e‚ðÁ‚·
+        // ï¿½ï¿½ÊŠOï¿½Ésï¿½ï¿½ï¿½ï¿½ï¿½ï¿½eï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         if(bullets[bulletCount]->isScreenOut())
         {
             DeleteBullet(bulletCount, _ENEMY_BULLET_ALL_);
