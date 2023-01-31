@@ -23,10 +23,47 @@ T_MoveInformation moveInfo[5] = {
 int current = 0;
 int waitTime = 0;
 
+void inputCSV()
+{
+    FILE* fp; // FILE型構造体
+    errno_t error;  // fopen_sのエラー確認
+
+    error = fopen_s(&fp, "../data/T_MoveInformation.csv", "r");
+    if(error != 0)
+    {
+        // エラー発生
+        return;
+    }
+    else
+    {
+        // ファイルを開いた
+        char line[100];
+        for(int i = 0; fgets(line, 100, fp) != NULL; i++)
+        //while(fgets(line, 100, fp) != NULL)
+        {
+            sscanf_s(line, "%d, %f, %f, %d, %d, %d", 
+                     &moveInfo[i].pattern,
+                     &moveInfo[i].destination.x,
+                     &moveInfo[i].destination.y,
+                     &moveInfo[i].nextArrayNum,
+                     &moveInfo[i].waitFrameTime,
+                     &moveInfo[i].attackType
+                    );
+        }
+    };
+        return;-
+    }
+
+    fclose(fp); // ファイルを閉じる
+}
+
+
 Enemy::Enemy(T_Location location)
     : CharaBase(location, 20.f, T_Location{ 1, 2 })
     , hp(10), point(10), shotNum(0)
 {
+    inputCSV();
+
     bullets = new BulletBase * [_ENEMY_BULLET_ALL_];
     for(int i = 0; i < _ENEMY_BULLET_ALL_; i++)
     {
@@ -40,7 +77,22 @@ void Enemy::Update()
     //newLocation.y += speed.y;
     //SetLocation(newLocation);
 
-    Move();
+    switch(moveInfo[current].pattern)
+    {
+        case 0:
+            Move();
+        break;
+        
+        case 1:
+            waitTime++;
+            if(moveInfo[current].waitFrameTime <= waitTime)
+            {
+                waitTime = 0;
+                current = moveInfo[current].nextArrayNum;
+            }
+        break;
+    }
+    
 
     int bulletCount;
     for(bulletCount = 0; bulletCount < _ENEMY_BULLET_ALL_; bulletCount++)
@@ -71,7 +123,7 @@ void Enemy::Update()
             {
                 shotNum++;
                 bullets[bulletCount] =
-                    new CircleBullet(GetLocation(), 2.f, (20 * shotNum));
+                    new CircleBullet(GetLocation(), 4.f, (20 * shotNum));
             }
         }
     }
@@ -125,53 +177,53 @@ void Enemy::Move()
 {
     T_Location nextLocation = GetLocation();
 
-    if((nextLocation.y == locations[current].y) &&
-       (nextLocation.x == locations[current].x))
+    if((nextLocation.y == moveInfo[current].destination.y) &&
+       (nextLocation.x == moveInfo[current].destination.x))
     {
-        current = next[current];
+        current = moveInfo[current].nextArrayNum;
     }
     else
     {
-        if(nextLocation.y != locations[current].y)
+        if(nextLocation.y != moveInfo[current].destination.y)
         {
-            if(nextLocation.y < locations[current].y)
+            if(nextLocation.y < moveInfo[current].destination.y)
             {
                 nextLocation.y += speed.y;
-                if((GetLocation().y <= locations[current].y) &&
-                   (locations[current].y <= nextLocation.y))
+                if((GetLocation().y <= moveInfo[current].destination.y) &&
+                   (moveInfo[current].destination.y <= nextLocation.y))
                 {
-                    nextLocation.y = locations[current].y;
+                    nextLocation.y = moveInfo[current].destination.y;
                 }
             }
             else
             {
                 nextLocation.y -= speed.y;
-                if((nextLocation.y <= locations[current].y) &&
-                   (locations[current].y <= GetLocation().y))
+                if((nextLocation.y <= moveInfo[current].destination.y) &&
+                   (moveInfo[current].destination.y <= GetLocation().y))
                 {
-                    nextLocation.y = locations[current].y;
+                    nextLocation.y = moveInfo[current].destination.y;
                 }
             }
         }
 
-        if(nextLocation.x != locations[current].x)
+        if(nextLocation.x != moveInfo[current].destination.x)
         {
-            if(nextLocation.x < locations[current].x)
+            if(nextLocation.x < moveInfo[current].destination.x)
             {
                 nextLocation.x += speed.x;
-                if((GetLocation().x <= locations[current].x) &&
-                   (locations[current].x <= nextLocation.x))
+                if((GetLocation().x <= moveInfo[current].destination.x) &&
+                   (moveInfo[current].destination.x <= nextLocation.x))
                 {
-                    nextLocation.x = locations[current].x;
+                    nextLocation.x = moveInfo[current].destination.x;
                 }
             }
             else
             {
                 nextLocation.x -= speed.x;
-                if((nextLocation.x <= locations[current].x) &&
-                   (locations[current].x <= GetLocation().x))
+                if((nextLocation.x <= moveInfo[current].destination.x) &&
+                   (moveInfo[current].destination.x <= GetLocation().x))
                 {
-                    nextLocation.x = locations[current].x;
+                    nextLocation.x = moveInfo[current].destination.x;
                 }
             }
         }
