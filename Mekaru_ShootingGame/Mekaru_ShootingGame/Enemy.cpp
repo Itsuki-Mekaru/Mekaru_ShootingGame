@@ -3,23 +3,25 @@
 #include "StraightBullets.h"
 #include "CircleBullet.h"
 
-struct ENEMY_MOVE
+struct T_MoveInformation
 {
-    int pattern;
-    int waitTime;
-    T_Location location;
+    int pattern;            // 行動パターン
+    T_Location destination; // 目的地
+    int nextArrayNum;       // 次の配列番号
+    int waitFrameTime;      // 待ち時間
+    int attackType;         // 攻撃の種類
 };
 
-ENEMY_MOVE MovePttarn[6] = {
-    {0,  0,  640.f, 150.f},
-    {1, 60,    0.f,   0.f},
-    {0,  0,1200.4f, 150.f},
-    {1, 60,    0.f,   0.f},
-    {0,  0,  80.2f, 150.f},
-    {1, 60,    0.f,   0.f}
+T_MoveInformation moveInfo[5] = {
+    { 0,    640, 150, 1,   0, 0},
+    { 0, 1200.4, 150, 2,   0, 2},
+    { 1,      0,   0, 3, 300, 1},
+    { 0,   80.2, 150, 4,   0, 2},
+    { 1,      0,   0, 1, 300, 1}
 };
 
 int current = 0;
+int waitTime = 0;
 
 Enemy::Enemy(T_Location location)
     : CharaBase(location, 20.f, T_Location{ 1, 2 })
@@ -57,13 +59,21 @@ void Enemy::Update()
         }
     }
 
-    if(bulletCount < _ENEMY_BULLET_ALL_ && bullets[bulletCount] == nullptr)
+    if(moveInfo[current].attackType != 0)
     {
-        // 弾幕を作ろう
-        bullets[bulletCount] =
-            new CircleBullet(GetLocation(), 2.f, (20 * shotNum));
-        shotNum++;
-        //bullets[bulletCount] = new StraightBullets(GetLocation(), T_Location{ 0, 2 });
+        if(bulletCount < _ENEMY_BULLET_ALL_ && bullets[bulletCount] == nullptr)
+        {
+            if(moveInfo[current].attackType == 1)
+            {
+                bullets[bulletCount] = new StraightBullets(GetLocation(), T_Location{ 0, 2 });
+            }
+            else if(moveInfo[current].attackType == 2)
+            {
+                shotNum++;
+                bullets[bulletCount] =
+                    new CircleBullet(GetLocation(), 2.f, (20 * shotNum));
+            }
+        }
     }
 
 #define _DEBUG_MODE_PLAYE_
@@ -115,75 +125,56 @@ void Enemy::Move()
 {
     T_Location nextLocation = GetLocation();
 
-    switch(MovePttarn[current].pattern)
+    if((nextLocation.y == locations[current].y) &&
+       (nextLocation.x == locations[current].x))
     {
-        case 0:
-            break;
-
-            if((nextLocation.y == MovePttarn[current].location.y) &&
-               (nextLocation.x == MovePttarn[current].location.x))
+        current = next[current];
+    }
+    else
+    {
+        if(nextLocation.y != locations[current].y)
+        {
+            if(nextLocation.y < locations[current].y)
             {
-                current++;
-
-                int maxsize = (sizeof(MovePttarn) / sizeof(*MovePttarn));
-                if(current == maxsize)
+                nextLocation.y += speed.y;
+                if((GetLocation().y <= locations[current].y) &&
+                   (locations[current].y <= nextLocation.y))
                 {
-                    current = 0;
+                    nextLocation.y = locations[current].y;
                 }
             }
             else
             {
-                if(nextLocation.y != MovePttarn[current].location.y)
+                nextLocation.y -= speed.y;
+                if((nextLocation.y <= locations[current].y) &&
+                   (locations[current].y <= GetLocation().y))
                 {
-                    if(nextLocation.y < MovePttarn[current].location.y)
-                    {
-                        nextLocation.y += speed.y;
-                        if((GetLocation().y <= MovePttarn[current].location.y) &&
-                           (MovePttarn[current].location.y <= nextLocation.y))
-                        {
-                            nextLocation.y = MovePttarn[current].location.y;
-                        }
-                    }
-                    else
-                    {
-                        nextLocation.y -= speed.y;
-                        if((nextLocation.y <= MovePttarn[current].location.y) &&
-                           (MovePttarn[current].location.y <= GetLocation().y))
-                        {
-                            nextLocation.y = MovePttarn[current].location.y;
-                        }
-                    }
+                    nextLocation.y = locations[current].y;
                 }
+            }
+        }
 
-                if(nextLocation.x != MovePttarn[current].location.x)
+        if(nextLocation.x != locations[current].x)
+        {
+            if(nextLocation.x < locations[current].x)
+            {
+                nextLocation.x += speed.x;
+                if((GetLocation().x <= locations[current].x) &&
+                   (locations[current].x <= nextLocation.x))
                 {
-                    if(nextLocation.x < MovePttarn[current].location.x)
-                    {
-                        nextLocation.x += speed.x;
-                        if((GetLocation().x <= MovePttarn[current].location.x) &&
-                           (MovePttarn[current].location.x <= nextLocation.x))
-                        {
-                            nextLocation.x = MovePttarn[current].location.x;
-                        }
-                    }
-                    else
-                    {
-                        nextLocation.x -= speed.x;
-                        if((nextLocation.x <= MovePttarn[current].location.x) &&
-                           (MovePttarn[current].location.x <= GetLocation().x))
-                        {
-                            nextLocation.x = MovePttarn[current].location.x;
-                        }
-                    }
+                    nextLocation.x = locations[current].x;
                 }
-
-        case 1:
-            break;
-
-        default:
-    };
-
-    
+            }
+            else
+            {
+                nextLocation.x -= speed.x;
+                if((nextLocation.x <= locations[current].x) &&
+                   (locations[current].x <= GetLocation().x))
+                {
+                    nextLocation.x = locations[current].x;
+                }
+            }
+        }
     }
 
     SetLocation(nextLocation);
