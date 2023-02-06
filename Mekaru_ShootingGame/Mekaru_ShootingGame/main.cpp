@@ -5,7 +5,7 @@
 #include "DxLib.h"
 #include "common.h"
 #include "SceneManager.h"
-#include "GameMainScene.h"
+#include "TitleScene.h"
 
 /***********************************************
  * プログラムの開始
@@ -25,7 +25,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     SetFontSize(20);		// 文字サイズを設定
 
-    SceneManager sceneMng((AbstractScene*)new GameMainScene());
+    SceneManager sceneMng(dynamic_cast<AbstractScene*>(new TitleScene()));
 
     // ゲームループ
     while(ProcessMessage() == 0 && sceneMng.Update() != nullptr)
