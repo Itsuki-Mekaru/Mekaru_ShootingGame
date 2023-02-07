@@ -3,27 +3,7 @@
 #include "StraightBullets.h"
 #include "CircleBullet.h"
 
-struct T_MoveInformation
-{
-    int pattern;            // 行動パターン
-    T_Location destination; // 目的地
-    int nextArrayNum;       // 次の配列番号
-    int waitFrameTime;      // 待ち時間
-    int attackType;         // 攻撃の種類
-};
-
-T_MoveInformation moveInfo[5] = {
-    { 0,    640, 150, 1,   0, 0},
-    { 0, 1200.4, 150, 2,   0, 2},
-    { 1,      0,   0, 3, 300, 1},
-    { 0,   80.2, 150, 4,   0, 2},
-    { 1,      0,   0, 1, 300, 1}
-};
-
-int current = 0;
-int waitTime = 0;
-
-void inputCSV()
+void Enemy::inputCSV()
 {
     FILE* fp; // FILE型構造体
     errno_t error;  // fopen_sのエラー確認
@@ -50,8 +30,7 @@ void inputCSV()
                      &moveInfo[i].attackType
                     );
         }
-    };
-        return;-
+        return;
     }
 
     fclose(fp); // ファイルを閉じる
