@@ -5,11 +5,6 @@
 
 #include "HpPotion.h"
 
-int waittime = 0;
-
-bool playerDeath = false;
-bool enemyDeath = false;
-
 AbstractScene* GameMainScene::Update()
 {
 

@@ -12,6 +12,11 @@ private:
     Enemy** enemy;
     ItemBase** items;
 
+    int waittime = 0;
+
+    bool playerDeath = false;
+    bool enemyDeath = false;
+
 public:
     GameMainScene()
     {
