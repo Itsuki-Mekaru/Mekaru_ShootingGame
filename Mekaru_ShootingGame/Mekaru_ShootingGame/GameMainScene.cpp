@@ -1,5 +1,7 @@
 #include "GameMainScene.h"
 #include "Recovery.h"
+#include "TitleScene.h"
+#include "GameOverScene.h"
 
 GameMainScene::GameMainScene()
 {
@@ -24,16 +26,20 @@ GameMainScene::GameMainScene()
 //描画以外の更新を実装する
 void GameMainScene::Update()
 {
-    player->Update();
-
     int enemyCount;
-    for(enemyCount = 0; enemyCount < 10; enemyCount++)
+    if(!playerDeath)
     {
-        if(enemy[enemyCount] == nullptr)
+        player->Update();
+
+       
+        for(enemyCount = 0; enemyCount < 10; enemyCount++)
         {
-            break;
+            if(enemy[enemyCount] == nullptr)
+            {
+                break;
+            }
+            enemy[enemyCount]->Update();
         }
-        enemy[enemyCount]->Update();
     }
 
     for(int i = 0; i < 10; i++)
@@ -88,6 +94,7 @@ void GameMainScene::Update()
                     // エネミーの削除
                     delete enemy[enemyCount];
                     enemy[enemyCount] = nullptr;
+                    enemyDeath = true;
 
                     // 配列を前に詰める
                     for(int i = enemyCount + 1; i < 10; i++)
@@ -125,7 +132,10 @@ void GameMainScene::Update()
             if(player->HitSphere(bullet[i]))
             {
                 player->Hit(bullet[i]->GetDamage());
-
+                if(player->LifeCheck())
+                {
+                    playerDeath = true;
+                }
                 enemy[enemyCount]->DeleteBullet(i, _ENEMY_BULLET_ALL_);
                 i--;
             }
@@ -190,5 +200,21 @@ void GameMainScene::Draw() const
 // シーンの変更処理
 AbstractScene* GameMainScene::ChangeScene()
 {
+    if(enemyDeath || playerDeath)
+    {
+        waittime++;
+        if(300 <= waittime)
+        {
+            if(playerDeath)
+            {
+                return dynamic_cast<AbstractScene*>(new GameOverScene());
+            }
+            else
+            {
+                return dynamic_cast<AbstractScene*>(new TitleScene());
+            }
+
+        }
+    }
     return this;
 }
