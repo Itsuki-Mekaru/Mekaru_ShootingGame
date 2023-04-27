@@ -11,7 +11,8 @@ private:
 public:
     // コンストラクタ
     SceneManager(AbstractScene* scene)
-        : mScene(scene) {}
+        : mScene(scene) 
+        {}
 
     // デストラクタ
     ~SceneManager()

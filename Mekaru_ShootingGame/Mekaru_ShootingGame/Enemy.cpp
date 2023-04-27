@@ -40,7 +40,6 @@ void Enemy::inputCSV()
 Enemy::Enemy(T_Location location, float radius)
     : SphereCollider(location, radius)
 {
-
     inputCSV();
 
     hp = 10;
@@ -113,6 +112,8 @@ void Enemy::Update()
                 else if(moveInfo[current].attackType == 2){
                     shotNum++;
                     bullets[bulletCount] = new CircleBullet(GetLocation(), 2.f, (20 * shotNum));
+
+
                 }
             }
         }

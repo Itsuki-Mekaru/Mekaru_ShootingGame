@@ -5,6 +5,40 @@
 
 #include "HpPotion.h"
 
+#include "BulletManager.h"
+
+GameMainScene::GameMainScene()
+{
+    bMng = BulletManager::GetInstance();
+    bMng->CreatePlayerBullet();
+    bMng->GetPlayerBullets();
+    bMng->DeletePlayerBullet(nullptr);
+
+    BulletManager::GetInstance()->CreateEnemyBullet();
+    BulletManager::GetInstance()->CreatePlayerBullet();
+
+    T_Location location;
+    location.x = 10;
+    location.y = 100;
+
+    float radius = 10.f;
+
+    player = new Player(location, radius);
+
+    enemy = new Enemy * [10];
+    for(int i = 0; i < 10; i++)
+    {
+        enemy[i] = nullptr;
+    }
+    enemy[0] = new Enemy(T_Location{ SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 }, 20);
+
+    items = new ItemBase * [10];
+    for(int i = 0; i < 10; i++)
+    {
+        items[i] = nullptr;
+    }
+}
+
 AbstractScene* GameMainScene::Update()
 {
 
@@ -21,7 +55,7 @@ AbstractScene* GameMainScene::Update()
             {
                 return dynamic_cast<AbstractScene*>(new TitleScene());
             }
-            
+
         }
     }
     else
@@ -35,6 +69,7 @@ AbstractScene* GameMainScene::Update()
             }
             enemy[i]->Update();
         }
+
 
         BulletsBase** bullets = player->GetBullets();
         for(int bulletsCount = 0; bulletsCount < 30; bulletsCount++)
